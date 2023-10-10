@@ -40,30 +40,6 @@ variable "image_name" {
   type        = string
 }
 
-variable "server_primary_disk_size" {
-  description = "The size of the primary disk for server VMs in MiB. Primary disk is the boot disk and contains ephemeral storage."
-  type        = number
-  default     = 150 * 1024
-}
-
-variable "server_secondary_disk_size" {
-  description = "The size of the secondary disk for server VMs in MiB. Secondary disk is used for PVC/object storage with rook/ceph."
-  type        = number
-  default     = 300 * 1024
-}
-
-variable "agent_primary_disk_size" {
-  description = "The size of the primary disk for agent VMs in MiB. Primary disk is the boot disk and contains ephemeral storage."
-  type        = number
-  default     = 150 * 1024
-}
-
-variable "agent_secondary_disk_size" {
-  description = "The size of the secondary disk for agent VMs in MiB. Secondary disk is used for PVC/object storage with rook/ceph."
-  type        = number
-  default     = 300 * 1024
-}
-
 variable "ssh_authorized_keys" {
   description = "A list of authorized public SSH keys to allow for login to the default user on all rke2 nodes"
   type        = list(string)
