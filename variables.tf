@@ -44,3 +44,13 @@ variable "ssh_authorized_keys" {
   description = "A list of authorized public SSH keys to allow for login to the default user on all rke2 nodes"
   type        = list(string)
 }
+
+variable "dev_server_dns" {
+  description = "The DNS name to use for the server/controlplane. Should route round robin to all rke2 server nodes"
+  type        = string
+}
+
+variable "test_server_dns" {
+  description = "The DNS name to use for the server/controlplane. Should route round robin to all rke2 server nodes"
+  type        = string
+}

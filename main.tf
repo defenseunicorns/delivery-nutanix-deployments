@@ -44,6 +44,7 @@ module "test-cluster" {
   agent_cpu           = 16
   image_name          = var.image_name
   ssh_authorized_keys = var.ssh_authorized_keys
+  server_dns_name     = var.test_server_dns
 }
 
 module "dev-cluster" {
@@ -60,4 +61,5 @@ module "dev-cluster" {
   agent_cpu           = 16
   image_name          = var.image_name
   ssh_authorized_keys = var.ssh_authorized_keys
+  server_dns_name     = var.dev_server_dns
 }
