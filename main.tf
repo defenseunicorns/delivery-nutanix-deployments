@@ -31,7 +31,7 @@ all available options.
 */
 
 module "test-cluster" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=init"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.0.1"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
@@ -45,10 +45,11 @@ module "test-cluster" {
   image_name          = var.image_name
   ssh_authorized_keys = var.ssh_authorized_keys
   server_dns_name     = var.test_server_dns
+  server_ip_list      = var.test_server_ip_list
 }
 
 module "dev-cluster" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=init"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.0.1"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
@@ -62,4 +63,5 @@ module "dev-cluster" {
   image_name          = var.image_name
   ssh_authorized_keys = var.ssh_authorized_keys
   server_dns_name     = var.dev_server_dns
+  server_ip_list      = var.dev_server_ip_list
 }

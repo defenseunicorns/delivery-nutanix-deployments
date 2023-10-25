@@ -54,3 +54,15 @@ variable "test_server_dns" {
   description = "The DNS name to use for the server/controlplane. Should route round robin to all rke2 server nodes"
   type        = string
 }
+
+variable "dev_server_ip_list" {
+  description = "Optional list of static IPs for server nodes. List must be >= server_count if used. If unused, server nodes will use DHCP."
+  type        = list(string)
+  default     = []
+}
+
+variable "test_server_ip_list" {
+  description = "Optional list of static IPs for server nodes. List must be >= server_count if used. If unused, server nodes will use DHCP."
+  type        = list(string)
+  default     = []
+}
