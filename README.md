@@ -22,7 +22,7 @@ nutanix_insecure sets if cert validation should be disabled or not. The image na
 When the postgres image being used has SELinux enabled (if using RHEL this is the default), the following is a required `Post Create Command` when provisioning a database with the profile:
 
 ```
-sudo /.autorelabel; sudo reboot
+sudo touch /.autorelabel
 ```
 
-This fixes SELinux labels that prevent the era_postgres service from running correctly and failing to start on future reboots.
+On the next reboot, this fixes SELinux labels that prevent the era_postgres service from running correctly and failing to start on future reboots.
