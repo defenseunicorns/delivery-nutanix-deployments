@@ -1,28 +1,30 @@
-# delivery-nutanix-cluster-deployment
+# IaC Deployments
 
-## Postgres Profile VM deployment
-This deployment uses the postgres-profile-vm module from the delivery-nutanix-iac repo to stand up a VM that is preconfigured with all the settings required for the NDB service to import it for the purpose of creating a new Postgres database profile. It requires a VM image that has been built by the delivery-nutanix-image-builder repo that contains all the prerequisite software installed. An example set of variables for this deployment is provided:
+This repository contains a collection of Terraform deployments that utilize the Nutanix IaC modules from the delivery-nutanix-iac repository. They can be used as a reference for how to use the modules and as configured they show an example Nutanix environment configured with both a "dev" and a "test" RKE2 cluster and databases intended for deploying the UDS Software Factory.
 
-```
-nutanix_username    = "your-prism-username"
-nutanix_password    = "your-prism-password"
-nutanix_endpoint    = "hostname/ip of prism or prism central"
-nutanix_port        = 9440
-nutanix_insecure    = true
-nutanix_cluster     = "Your-Cluster"
-nutanix_subnet      = "Your Subnet"
-image_name          = "uds-postgresql-buildtag"
-ssh_authorized_keys = ["Your SSH public key"]
-user_password       = "$6$eqCKlTML5rIALmwB$6fyOlrTK9E353ofDISHuEJxqIZx8MYt.mQM.qfbeydQX/CGnz204AlmYg5VCZ8O/xLKJ34CkgV7hyoUno08N9."
-pg_password         = "desired-postgres-user-password"
-```
+The deployments assume a variety of input variables are set that are specific to the modules being referenced. Details about module specific variables can be found in the delivery-nutanix-iac README, but here are the common variables needed for connecting the Nutanix provider to a Nutanix environment.
 
-nutanix_insecure sets if cert validation should be disabled or not. The image name should be an image available in the cluster that was built by the postgres-profile image builder. user_password is the password that will be configured for the 'era' user which is used by NDB to connect to the instance. The hashed value can be obtained by using the command `mkpasswd -m sha-512 -s` and providing the desired password. pg_password is the password that will be set for the postgres user and is also used by the NDB service to import the database. The passwords can be anything and will not persist when NDB provisions new databases in the future since NDB lets you set passwords at database provision time.
-
-When the postgres image being used has SELinux enabled (if using RHEL this is the default), the following is a required `Post Create Command` when provisioning a database with the profile:
+## Prism Central Variables
 
 ```
-sudo touch /.autorelabel
+nutanix_username = "your-prism-username"
+nutanix_password = "your-prism-password"
+nutanix_endpoint = "hostname/ip of prism or prism central"
+nutanix_port     = 9440
+nutanix_insecure = true # true if you need to disable cert validation for prism
 ```
 
-On the next reboot, this fixes SELinux labels that prevent the era_postgres service from running correctly and failing to start on future reboots.
+## Nutanix Database Service Variables
+
+```
+ndb_username = "your-ndb-username"
+ndb_password = "your-ndb-password"
+ndb_endpoint = "hostname/ip of NDB service"
+```
+
+# Deploying Infrastructure For UDS SWF
+
+
+
+# Upgrading RKE2 cluster
+
