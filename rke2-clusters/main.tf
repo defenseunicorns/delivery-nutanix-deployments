@@ -30,32 +30,64 @@ how the delivery nutanix rke2 module can be referenced. See the module input var
 all available options.
 */
 
-module "test-cluster" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.0.1"
+resource "random_password" "test_token" {
+  length  = 40
+  special = false
+}
+
+# module "test-cluster" {
+#   source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=enable-rke2-upgrades"
+
+#   nutanix_cluster     = var.nutanix_cluster
+#   nutanix_subnet      = var.nutanix_subnet
+#   name                = "rke2-test"
+#   server_count        = 3
+#   agent_count         = 4
+#   server_memory       = 16*1024
+#   server_cpu          = 8
+#   agent_memory        = 64*1024
+#   agent_cpu           = 16
+#   image_name          = var.image_name
+#   ssh_authorized_keys = var.ssh_authorized_keys
+#   server_dns_name     = var.test_server_dns
+#   server_ip_list      = var.test_server_ip_list
+#   join_token          = random_password.test_token.result
+#   bootstrap_cluster   = true
+# }
+
+module "green-test-cluster" {
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=enable-rke2-upgrades"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
-  name                = "rke2-test"
+  name                = "rke2-test-green"
   server_count        = 3
-  agent_count         = 3
+  agent_count         = 4
   server_memory       = 16*1024
   server_cpu          = 8
   agent_memory        = 64*1024
   agent_cpu           = 16
-  image_name          = var.image_name
+  image_name          = var.green_image_name
   ssh_authorized_keys = var.ssh_authorized_keys
   server_dns_name     = var.test_server_dns
-  server_ip_list      = var.test_server_ip_list
+  # server_ip_list      = var.green_test_server_ip_list
+  join_token          = random_password.test_token.result
+  bootstrap_cluster   = false
+}
+
+resource "random_password" "dev_token" {
+  length  = 40
+  special = false
 }
 
 module "dev-cluster" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.0.1"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.1.2"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
   name                = "rke2-dev"
   server_count        = 3
-  agent_count         = 3
+  agent_count         = 4
   server_memory       = 16*1024
   server_cpu          = 8
   agent_memory        = 64*1024

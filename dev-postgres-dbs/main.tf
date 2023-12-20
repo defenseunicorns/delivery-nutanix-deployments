@@ -28,7 +28,7 @@ provider "nutanix" {
 }
 
 module "gitlab-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.0"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -45,7 +45,7 @@ module "gitlab-pg-db" {
 }
 
 module "keycloak-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.0"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -62,7 +62,7 @@ module "keycloak-pg-db" {
 }
 
 module "sonarqube-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.0"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -79,7 +79,7 @@ module "sonarqube-pg-db" {
 }
 
 module "jira-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.0"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -96,7 +96,7 @@ module "jira-pg-db" {
 }
 
 module "confluence-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.0"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -113,7 +113,7 @@ module "confluence-pg-db" {
 }
 
 module "mattermost-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.0"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -130,7 +130,7 @@ module "mattermost-pg-db" {
 }
 
 module "nexus-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.0"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.1.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
