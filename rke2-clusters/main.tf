@@ -40,9 +40,9 @@ module "test-cluster" {
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
-  name                = "rke2-test"
+  name                = "rke2-test-green"
   server_count        = 3
-  agent_count         = 3
+  agent_count         = 4
   server_memory       = 16*1024
   server_cpu          = 8
   agent_memory        = 64*1024
@@ -67,7 +67,7 @@ module "dev-cluster" {
   nutanix_subnet      = var.nutanix_subnet
   name                = "rke2-dev"
   server_count        = 3
-  agent_count         = 3
+  agent_count         = 4
   server_memory       = 16*1024
   server_cpu          = 8
   agent_memory        = 96*1024
