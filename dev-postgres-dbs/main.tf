@@ -1,9 +1,10 @@
 locals {
-  default_software_profile_name = "postgres_14.9"
+  default_software_profile_name = "fips_postgres_14"
   default_compute_profile_name  = "large-compute"
   default_network_profile_name  = "DEFAULT_OOB_POSTGRESQL_NETWORK"
   default_db_param_profile_name = "DEFAULT_POSTGRES_PARAMS"
   default_sla_name              = "DEFAULT_OOB_BRASS_SLA"
+  name_prefix                   = "dev-fips"
 }
 
 terraform {
@@ -28,7 +29,7 @@ provider "nutanix" {
 }
 
 module "gitlab-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=ndb-postgres-profile-vm"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.2.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -37,7 +38,7 @@ module "gitlab-pg-db" {
   sla_name              = local.default_sla_name
   nutanix_cluster_name  = var.nutanix_cluster_name
   database_name         = "gitlabdb"
-  instance_name         = "dev-gitlab-pg"
+  instance_name         = "${local.name_prefix}-gitlab-pg"
   database_size         = "200"
   ssh_authorized_key    = var.ssh_authorized_key
   db_password           = var.gitlab_db_password
@@ -45,7 +46,7 @@ module "gitlab-pg-db" {
 }
 
 module "keycloak-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=ndb-postgres-profile-vm"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.2.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -54,7 +55,7 @@ module "keycloak-pg-db" {
   sla_name              = local.default_sla_name
   nutanix_cluster_name  = var.nutanix_cluster_name
   database_name         = "keycloakdb"
-  instance_name         = "dev-keycloak-pg"
+  instance_name         = "${local.name_prefix}-keycloak-pg"
   database_size         = "200"
   ssh_authorized_key    = var.ssh_authorized_key
   db_password           = var.keycloak_db_password
@@ -62,7 +63,7 @@ module "keycloak-pg-db" {
 }
 
 module "sonarqube-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=ndb-postgres-profile-vm"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.2.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -71,7 +72,7 @@ module "sonarqube-pg-db" {
   sla_name              = local.default_sla_name
   nutanix_cluster_name  = var.nutanix_cluster_name
   database_name         = "sonarqubedb"
-  instance_name         = "dev-sonarqube-pg"
+  instance_name         = "${local.name_prefix}-sonarqube-pg"
   database_size         = "200"
   ssh_authorized_key    = var.ssh_authorized_key
   db_password           = var.sonarqube_db_password
@@ -79,7 +80,7 @@ module "sonarqube-pg-db" {
 }
 
 module "jira-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=ndb-postgres-profile-vm"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.2.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -88,7 +89,7 @@ module "jira-pg-db" {
   sla_name              = local.default_sla_name
   nutanix_cluster_name  = var.nutanix_cluster_name
   database_name         = "jiradb"
-  instance_name         = "dev-jira-pg"
+  instance_name         = "${local.name_prefix}-jira-pg"
   database_size         = "200"
   ssh_authorized_key    = var.ssh_authorized_key
   db_password           = var.jira_db_password
@@ -96,7 +97,7 @@ module "jira-pg-db" {
 }
 
 module "confluence-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=ndb-postgres-profile-vm"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.2.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -105,7 +106,7 @@ module "confluence-pg-db" {
   sla_name              = local.default_sla_name
   nutanix_cluster_name  = var.nutanix_cluster_name
   database_name         = "confluencedb"
-  instance_name         = "dev-confluence-pg"
+  instance_name         = "${local.name_prefix}-confluence-pg"
   database_size         = "200"
   ssh_authorized_key    = var.ssh_authorized_key
   db_password           = var.confluence_db_password
@@ -113,7 +114,7 @@ module "confluence-pg-db" {
 }
 
 module "mattermost-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=ndb-postgres-profile-vm"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.2.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -122,7 +123,7 @@ module "mattermost-pg-db" {
   sla_name              = local.default_sla_name
   nutanix_cluster_name  = var.nutanix_cluster_name
   database_name         = "mattermostdb"
-  instance_name         = "dev-mattermost-pg"
+  instance_name         = "${local.name_prefix}-mattermost-pg"
   database_size         = "200"
   ssh_authorized_key    = var.ssh_authorized_key
   db_password           = var.mattermost_db_password
@@ -130,7 +131,7 @@ module "mattermost-pg-db" {
 }
 
 module "nexus-pg-db" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=ndb-postgres-profile-vm"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.2.2"
 
   software_profile_name = local.default_software_profile_name
   compute_profile_name  = local.default_compute_profile_name
@@ -139,7 +140,7 @@ module "nexus-pg-db" {
   sla_name              = local.default_sla_name
   nutanix_cluster_name  = var.nutanix_cluster_name
   database_name         = "nexusdb"
-  instance_name         = "dev-nexus-pg"
+  instance_name         = "${local.name_prefix}-nexus-pg"
   database_size         = "200"
   ssh_authorized_key    = var.ssh_authorized_key
   db_password           = var.nexus_db_password
