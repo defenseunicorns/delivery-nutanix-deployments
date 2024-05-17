@@ -6,6 +6,20 @@ terraform {
       version = ">= 1.9.0"
     }
   }
+  backend "s3" {
+    bucket = "terraform-state"
+    key    = "rke2-clusters/terraform.tfstate"
+    endpoints = { s3 = "https://swf.objects.mtsi.bigbang.dev" }
+    region = "us-east-1"
+
+    shared_credentials_files = [ "~/.nutanix/credentials" ]
+    insecure = true
+    skip_credentials_validation = true
+    skip_region_validation = true
+    skip_requesting_account_id  = true
+    skip_metadata_api_check     = true
+    skip_s3_checksum = true
+  }
 }
 
 provider "nutanix" {
@@ -36,17 +50,17 @@ resource "random_password" "test_token" {
 }
 
 module "test-cluster" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.2.1"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=RemoveDataVolumes"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
-  name                = "rke2-test-green"
+  name                = "rke2-test"
   server_count        = 3
-  agent_count         = 4
+  agent_count         = 3
   server_memory       = 16*1024
   server_cpu          = 8
-  agent_memory        = 64*1024
-  agent_cpu           = 24
+  agent_memory        = 96*1024
+  agent_cpu           = 32
   image_name          = var.image_name
   ssh_authorized_keys = var.ssh_authorized_keys
   server_dns_name     = var.test_server_dns
@@ -61,17 +75,17 @@ resource "random_password" "dev_token" {
 }
 
 module "dev-cluster" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.2.1"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=RemoveDataVolumes"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
   name                = "rke2-dev"
   server_count        = 3
-  agent_count         = 4
+  agent_count         = 3
   server_memory       = 16*1024
   server_cpu          = 8
-  agent_memory        = 96*1024
-  agent_cpu           = 24
+  agent_memory        = 64*1024
+  agent_cpu           = 32
   image_name          = var.image_name
   ssh_authorized_keys = var.ssh_authorized_keys
   server_dns_name     = var.dev_server_dns
@@ -79,3 +93,23 @@ module "dev-cluster" {
   join_token          = random_password.dev_token.result
   bootstrap_cluster   = true
 }
+
+# module "jacob-cluster" {
+#   source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.2.1"
+
+#   nutanix_cluster     = var.nutanix_cluster
+#   nutanix_subnet      = var.nutanix_subnet
+#   name                = "rke2-jacob"
+#   server_count        = 1
+#   agent_count         = 2
+#   server_memory       = 8*1024
+#   server_cpu          = 4
+#   agent_memory        = 8*1024
+#   agent_cpu           = 4
+#   image_name          = "uds-rhel-fips-rke2-v1.29.3+rke2r1-202404301921"
+#   ssh_authorized_keys = var.ssh_authorized_keys
+#   # server_dns_name     = var.dev_server_dns
+#   # server_ip_list      = var.dev_server_ip_list
+#   join_token          = "blah"
+#   bootstrap_cluster   = true
+# }
