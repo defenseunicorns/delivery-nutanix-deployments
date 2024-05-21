@@ -94,22 +94,20 @@ module "dev-cluster" {
   bootstrap_cluster   = true
 }
 
-# module "jacob-cluster" {
-#   source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.2.1"
+# module "small-cluster" {
+#   source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.3.0"
 
 #   nutanix_cluster     = var.nutanix_cluster
 #   nutanix_subnet      = var.nutanix_subnet
-#   name                = "rke2-jacob"
+#   name                = "rke2-small"
 #   server_count        = 1
-#   agent_count         = 2
+#   agent_count         = 1
 #   server_memory       = 8*1024
 #   server_cpu          = 4
 #   agent_memory        = 8*1024
 #   agent_cpu           = 4
-#   image_name          = "uds-rhel-fips-rke2-v1.29.3+rke2r1-202404301921"
+#   image_name          = var.image_name
 #   ssh_authorized_keys = var.ssh_authorized_keys
-#   # server_dns_name     = var.dev_server_dns
-#   # server_ip_list      = var.dev_server_ip_list
 #   join_token          = "blah"
 #   bootstrap_cluster   = true
 # }
