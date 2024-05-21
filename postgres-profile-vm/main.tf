@@ -36,7 +36,7 @@ module "postgres-14-profile-vm" {
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
   name                = "postgres-14-profile"
-  memory              = 16*1024
+  memory              = 4*1024
   image_name          = var.image_name
   ssh_authorized_keys = var.ssh_authorized_keys
   user_password       = var.user_password
