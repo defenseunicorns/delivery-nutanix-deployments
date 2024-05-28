@@ -7,18 +7,18 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "terraform-state"
-    key    = "rke2-clusters/terraform.tfstate"
+    bucket    = "terraform-state"
+    key       = "rke2-clusters/terraform.tfstate"
     endpoints = { s3 = "https://swf.objects.mtsi.bigbang.dev" }
-    region = "us-east-1"
+    region    = "us-east-1"
 
-    shared_credentials_files = [ "~/.nutanix/credentials" ]
-    insecure = true
+    shared_credentials_files    = ["~/.nutanix/credentials"]
+    insecure                    = true
     skip_credentials_validation = true
-    skip_region_validation = true
+    skip_region_validation      = true
     skip_requesting_account_id  = true
     skip_metadata_api_check     = true
-    skip_s3_checksum = true
+    skip_s3_checksum            = true
   }
 }
 
@@ -57,9 +57,9 @@ module "test-cluster" {
   name                = "rke2-test"
   server_count        = 3
   agent_count         = 3
-  server_memory       = 16*1024
+  server_memory       = 16 * 1024
   server_cpu          = 8
-  agent_memory        = 96*1024
+  agent_memory        = 96 * 1024
   agent_cpu           = 32
   image_name          = var.image_name
   ssh_authorized_keys = var.ssh_authorized_keys
@@ -82,9 +82,9 @@ module "dev-cluster" {
   name                = "rke2-dev"
   server_count        = 3
   agent_count         = 3
-  server_memory       = 16*1024
+  server_memory       = 16 * 1024
   server_cpu          = 8
-  agent_memory        = 64*1024
+  agent_memory        = 64 * 1024
   agent_cpu           = 32
   image_name          = var.image_name
   ssh_authorized_keys = var.ssh_authorized_keys
