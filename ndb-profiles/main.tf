@@ -35,5 +35,5 @@ provider "nutanix" {
 }
 
 module "ndb-profiles" {
-  source = "../../delivery-nutanix-iac/modules/ndb-profiles"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-profiles?ref=v0.3.1"
 }
