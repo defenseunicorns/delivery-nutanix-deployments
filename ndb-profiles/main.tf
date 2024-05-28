@@ -6,6 +6,20 @@ terraform {
       version = ">= 1.9.0"
     }
   }
+  backend "s3" {
+    bucket    = "terraform-state"
+    key       = "ndb-profiles/terraform.tfstate"
+    endpoints = { s3 = "https://swf.objects.mtsi.bigbang.dev" }
+    region    = "us-east-1"
+
+    shared_credentials_files    = ["~/.nutanix/credentials"]
+    insecure                    = true
+    skip_credentials_validation = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+    skip_metadata_api_check     = true
+    skip_s3_checksum            = true
+  }
 }
 
 provider "nutanix" {
@@ -20,68 +34,6 @@ provider "nutanix" {
   ndb_password = var.ndb_password
 }
 
-resource "nutanix_ndb_profile" "compute-profile-small" {
-  name        = "small-compute"
-  description = "compute profile managed by terraform"
-  compute_profile {
-    core_per_cpu = 1
-    cpus         = 2
-    memory_size  = 2
-  }
-  published = true
-}
-
-resource "nutanix_ndb_profile" "compute-profile-medium" {
-  name        = "medium-compute"
-  description = "compute profile managed by terraform"
-  compute_profile {
-    core_per_cpu = 1
-    cpus         = 2
-    memory_size  = 4
-  }
-  published = true
-}
-
-resource "nutanix_ndb_profile" "compute-profile-large" {
-  name        = "large-compute"
-  description = "compute profile managed by terraform"
-  compute_profile {
-    core_per_cpu = 1
-    cpus         = 2
-    memory_size  = 8
-  }
-  published = true
-}
-
-resource "nutanix_ndb_profile" "compute-profile-xlarge" {
-  name        = "xlarge-compute"
-  description = "compute profile managed by terraform"
-  compute_profile {
-    core_per_cpu = 1
-    cpus         = 4
-    memory_size  = 16
-  }
-  published = true
-}
-
-resource "nutanix_ndb_profile" "compute-profile-2xlarge" {
-  name        = "2xlarge-compute"
-  description = "compute profile managed by terraform"
-  compute_profile {
-    core_per_cpu = 1
-    cpus         = 8
-    memory_size  = 32
-  }
-  published = true
-}
-
-resource "nutanix_ndb_profile" "compute-profile-4xlarge" {
-  name        = "4xlarge-compute"
-  description = "compute profile managed by terraform"
-  compute_profile {
-    core_per_cpu = 1
-    cpus         = 16
-    memory_size  = 64
-  }
-  published = true
+module "ndb-profiles" {
+  source = "../../delivery-nutanix-iac/modules/ndb-profiles"
 }
