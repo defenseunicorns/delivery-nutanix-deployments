@@ -80,3 +80,9 @@ variable "green_test_server_ip_list" {
   type        = list(string)
   default     = []
 }
+
+variable "ntp_server" {
+  description = "IP to use for NTP"
+  type        = string
+  default     = ""
+}

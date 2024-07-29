@@ -50,7 +50,7 @@ resource "random_password" "test_token" {
 }
 
 module "test-cluster" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.3.0"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.3.2"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
@@ -67,6 +67,7 @@ module "test-cluster" {
   server_ip_list      = var.test_server_ip_list
   join_token          = random_password.test_token.result
   bootstrap_cluster   = true
+  ntp_server          = var.ntp_server
 }
 
 resource "random_password" "dev_token" {
@@ -75,7 +76,7 @@ resource "random_password" "dev_token" {
 }
 
 module "dev-cluster" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.3.0"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.3.2"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
@@ -92,6 +93,7 @@ module "dev-cluster" {
   server_ip_list      = var.dev_server_ip_list
   join_token          = random_password.dev_token.result
   bootstrap_cluster   = true
+  ntp_server          = var.ntp_server
 }
 
 # module "small-cluster" {
