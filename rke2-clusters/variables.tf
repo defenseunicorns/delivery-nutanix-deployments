@@ -81,6 +81,12 @@ variable "green_test_server_ip_list" {
   default     = []
 }
 
+variable "temp_server_ip_list" {
+  description = "Optional list of static IPs for server nodes. List must be >= server_count if used. If unused, server nodes will use DHCP."
+  type        = list(string)
+  default     = []
+}
+
 variable "ntp_server" {
   description = "IP to use for NTP"
   type        = string
