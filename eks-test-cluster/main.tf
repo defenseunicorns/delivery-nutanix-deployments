@@ -26,7 +26,7 @@ provider "kubernetes" {
 }
 
 module eksa-test-cluster {
-  source = "../../delivery-nutanix-iac/modules/eks-d"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/eks-d?ref=v0.4.0"
 
   cluster_name = "test-2"
   control_plane_cert_sans = ["kube-test.mtsi.bigbang.dev", "10.0.200.60"]
