@@ -2,7 +2,7 @@ locals {
   default_software_profile_name = "fips_postgres_14"
   default_compute_profile_name  = "large-compute"
   default_network_profile_name  = "DEFAULT_OOB_POSTGRESQL_NETWORK"
-  default_db_param_profile_name = "DEFAULT_POSTGRES_PARAMS"
+  default_db_param_profile_name = "tuned_postgres_profile"
   default_sla_name              = "DEFAULT_OOB_BRASS_SLA"
   name_prefix                   = "test-fips"
 }
@@ -15,7 +15,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket    = "terraform-state"
+    bucket    = "tofu-state"
     key       = "test-postgres-dbs/terraform.tfstate"
     endpoints = { s3 = "https://swf.objects.mtsi.bigbang.dev" }
     region    = "us-east-1"

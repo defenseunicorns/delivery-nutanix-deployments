@@ -46,18 +46,8 @@ variable "ssh_authorized_keys" {
   type        = list(string)
 }
 
-variable "user_password" {
-  description = "The password to set for the era user."
-  type        = string
-}
-
-variable "pg_password" {
-  description = "The password to set for the postgres DB postgres user. This can be anything, but the value needs to be provided to NDB on DB import."
-  type        = string
-}
-
 variable "ntp_server" {
-  description = "IP of NTP server to use"
+  description = "IP or hostname of NTP server to use for host"
   type        = string
   default     = ""
 }

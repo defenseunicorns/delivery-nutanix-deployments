@@ -7,7 +7,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket    = "terraform-state"
+    bucket    = "tofu-state"
     key       = "rke2-clusters/terraform.tfstate"
     endpoints = { s3 = "https://swf.objects.mtsi.bigbang.dev" }
     region    = "us-east-1"
@@ -75,48 +75,48 @@ resource "random_password" "dev_token" {
   special = false
 }
 
-module "dev-cluster" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.3.3"
+# module "dev-cluster" {
+#   source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.3.3"
 
-  nutanix_cluster     = var.nutanix_cluster
-  nutanix_subnet      = var.nutanix_subnet
-  name                = "rke2-dev"
-  server_count        = 3
-  agent_count         = 3
-  server_memory       = 16 * 1024
-  server_cpu          = 8
-  agent_memory        = 64 * 1024
-  agent_cpu           = 32
-  image_name          = var.image_name
-  ssh_authorized_keys = var.ssh_authorized_keys
-  server_dns_name     = var.dev_server_dns
-  server_ip_list      = var.dev_server_ip_list
-  join_token          = random_password.dev_token.result
-  bootstrap_cluster   = true
-  ntp_server          = var.ntp_server
-}
+#   nutanix_cluster     = var.nutanix_cluster
+#   nutanix_subnet      = var.nutanix_subnet
+#   name                = "rke2-dev"
+#   server_count        = 3
+#   agent_count         = 3
+#   server_memory       = 16 * 1024
+#   server_cpu          = 8
+#   agent_memory        = 64 * 1024
+#   agent_cpu           = 32
+#   image_name          = var.image_name
+#   ssh_authorized_keys = var.ssh_authorized_keys
+#   server_dns_name     = var.dev_server_dns
+#   server_ip_list      = var.dev_server_ip_list
+#   join_token          = random_password.dev_token.result
+#   bootstrap_cluster   = true
+#   ntp_server          = var.ntp_server
+# }
 
-module "dev-cluster-gitaly" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.3.3"
+# module "dev-cluster-gitaly" {
+#   source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=v0.3.3"
 
-  nutanix_cluster     = var.nutanix_cluster
-  nutanix_subnet      = var.nutanix_subnet
-  name                = "rke2-dev-gitaly"
-  server_count        = 0
-  agent_count         = 1
-  server_memory       = 16 * 1024
-  server_cpu          = 8
-  agent_memory        = 70 * 1024
-  agent_cpu           = 20
-  image_name          = var.image_name
-  ssh_authorized_keys = var.ssh_authorized_keys
-  server_dns_name     = var.dev_server_dns
-  join_token          = random_password.dev_token.result
-  bootstrap_cluster   = false
-  ntp_server          = var.ntp_server
-  agent_custom_taints = ["dedicated-gitaly-node=:NoSchedule"]
-  agent_labels        = ["dedicated=gitaly-node"]
-}
+#   nutanix_cluster     = var.nutanix_cluster
+#   nutanix_subnet      = var.nutanix_subnet
+#   name                = "rke2-dev-gitaly"
+#   server_count        = 0
+#   agent_count         = 1
+#   server_memory       = 16 * 1024
+#   server_cpu          = 8
+#   agent_memory        = 70 * 1024
+#   agent_cpu           = 20
+#   image_name          = var.image_name
+#   ssh_authorized_keys = var.ssh_authorized_keys
+#   server_dns_name     = var.dev_server_dns
+#   join_token          = random_password.dev_token.result
+#   bootstrap_cluster   = false
+#   ntp_server          = var.ntp_server
+#   agent_custom_taints = ["dedicated-gitaly-node=:NoSchedule"]
+#   agent_labels        = ["dedicated=gitaly-node"]
+# }
 
 resource "random_password" "temp_token" {
   length  = 40
@@ -125,6 +125,7 @@ resource "random_password" "temp_token" {
 
 # module "temp-cluster" {
 #   # source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/rke2?ref=CustomTaints"
+#   source = "../../delivery-nutanix-iac/modules/rke2"
 
 #   nutanix_cluster     = var.nutanix_cluster
 #   nutanix_subnet      = var.nutanix_subnet
@@ -141,6 +142,7 @@ resource "random_password" "temp_token" {
 #   join_token          = random_password.temp_token.result
 #   bootstrap_cluster   = true
 #   ntp_server          = var.ntp_server
-#   agent_custom_taints = ["gitaly-node=:NoSchedule", "some-other-taint=:NoSchedule"]
+#   agent_additional_disk_sizes = [100 * 1024, 200 * 1024]
+#   # agent_custom_taints = ["gitaly-node=:NoSchedule", "some-other-taint=:NoSchedule"]
 #   # server_custom_taints = ["test-custom-taints=:NoSchedule"]
 # }
