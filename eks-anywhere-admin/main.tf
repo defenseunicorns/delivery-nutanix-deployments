@@ -55,6 +55,10 @@ data "nutanix_image" "nofips-image" {
   image_name = "rhel-8.9-base-image"
 }
 
+data "nutanix_image" "anywhere-image" {
+  image_name = "eks-anywhere-bootstrap-image-202410021623"
+}
+
 resource "nutanix_virtual_machine" "eks_anywhere_admin" {
   name         = "${random_string.uid.result}-eks-anywhere-admin"
   cluster_uuid = data.nutanix_cluster.cluster.id
@@ -123,6 +127,43 @@ resource "nutanix_virtual_machine" "eks_anywhere_admin_2" {
 
   guest_customization_cloud_init_user_data = base64encode(templatefile("${path.module}/cloud-config.tpl.yaml", {
     hostname         = "${random_string.uid.result}-eks-anywhere-admin-2",
+    node_user        = "nutanix",
+    authorized_keys  = var.ssh_authorized_keys,
+    ntp_server       = var.ntp_server,
+  }))
+}
+
+resource "nutanix_virtual_machine" "test_eks_anywhere_image" {
+  name         = "${random_string.uid.result}-eks-anywhere-admin-test"
+  cluster_uuid = data.nutanix_cluster.cluster.id
+
+  memory_size_mib      = 16 * 1024
+  num_sockets          = 4
+  num_vcpus_per_socket = 1
+
+  boot_type = "UEFI"
+
+  disk_list {
+    data_source_reference = {
+      kind = "image"
+      uuid = data.nutanix_image.anywhere-image.id
+    }
+    device_properties {
+      disk_address = {
+        device_index = 0
+        adapter_type = "SCSI"
+      }
+      device_type = "DISK"
+    }
+    disk_size_mib = 150 * 1024
+  }
+
+  nic_list {
+    subnet_uuid = data.nutanix_subnet.subnet.id
+  }
+
+  guest_customization_cloud_init_user_data = base64encode(templatefile("${path.module}/cloud-config-new.tpl.yaml", {
+    hostname         = "${random_string.uid.result}-eks-anywhere-admin-test",
     node_user        = "nutanix",
     authorized_keys  = var.ssh_authorized_keys,
     ntp_server       = var.ntp_server,

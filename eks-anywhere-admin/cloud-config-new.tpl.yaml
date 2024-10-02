@@ -1,0 +1,54 @@
+#cloud-config
+hostname: ${hostname}.local
+prefer_fqdn_over_hostname: false
+users:
+  - name: ${node_user}
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    shell: /bin/bash
+    ssh_authorized_keys:
+    %{ for key in authorized_keys ~}
+    - ${key}
+    %{ endfor ~}
+ssh_pwauth: False
+runcmd:
+  - |
+    # If an NTP server address is passed in then overwrite chrony.conf with settings needed for using custom NTP server
+    if [ "${ntp_server}" ]; then
+      # copy default chrony.conf into a new file as a reference
+      cp /etc/chrony.conf /etc/chrony.defaultconf
+      # Grab server IP and use it to find the subnet that the server is on
+      host_ip=$(ip route get $(ip route show 0.0.0.0/0 | grep -oP 'via \K\S+') | grep -oP 'src \K\S+')
+      subnet=$(ip route | grep -v default | grep "src $${host_ip}" | awk '{print $1}')
+      # Overwrite default chrony.conf with custom NTP server information
+      tee /etc/chrony.conf <<EOF >/dev/null
+    # Server/IP to use for NTP
+    server ${ntp_server} iburst
+    # Record the rate at which the system clock gains/losses time.
+    driftfile /var/lib/chrony/drift
+    # Specify directory for log files.
+    logdir /var/log/chrony
+    log measurements statistics tracking
+    # Allow the system clock to be stepped in the first three updates
+    # if its offset is larger than 1 second.
+    makestep 1.0 3
+    # Specify file containing keys for NTP authentication.
+    keyfile /etc/chrony.keys
+    commandkey 24
+    # Serve time even if not synchronized to a time source.
+    local stratum 10
+    initstepslew 20 ntp1.example.net
+    # Enable kernel synchronization of the real-time clock (RTC).
+    rtcsync
+    # Allow NTP client access from local network.
+    allow $${subnet}
+    # Get TAI-UTC offset and leap seconds from the system tz database.
+    leapsectz right/UTC
+    EOF
+    # Restart chronyd service to ensure config change is active
+    systemctl restart chronyd
+    fi
+    (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/${node_user}/.bashrc
+    mkdir -p /home/${node_user}/.ssh
+    echo "HostKeyAlgorithms +ssh-rsa" >> /home/${node_user}/.ssh/config
+    echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> /home/${node_user}/.ssh/config
+    sudo chmod 600 /home/${node_user}/.ssh/config
