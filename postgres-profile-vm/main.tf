@@ -7,7 +7,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket    = "terraform-state"
+    bucket    = "tofu-state"
     key       = "postgres-profile-vm/terraform.tfstate"
     endpoints = { s3 = "https://swf.objects.mtsi.bigbang.dev" }
     region    = "us-east-1"
@@ -31,7 +31,7 @@ provider "nutanix" {
 }
 
 module "postgres-14-profile-vm" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/postgres-profile-vm?ref=v0.2.2"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/postgres-profile-vm?ref=v0.3.3"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
@@ -41,4 +41,5 @@ module "postgres-14-profile-vm" {
   ssh_authorized_keys = var.ssh_authorized_keys
   user_password       = var.user_password
   pg_password         = var.pg_password
+  ntp_server          = var.ntp_server
 }

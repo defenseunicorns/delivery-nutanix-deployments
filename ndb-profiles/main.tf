@@ -7,7 +7,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket    = "terraform-state"
+    bucket    = "tofu-state"
     key       = "ndb-profiles/terraform.tfstate"
     endpoints = { s3 = "https://swf.objects.mtsi.bigbang.dev" }
     region    = "us-east-1"
