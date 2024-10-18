@@ -1,3 +1,6 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
 locals {
   default_software_profile_name = "fips_postgres_14"
   default_compute_profile_name  = "large-compute"
