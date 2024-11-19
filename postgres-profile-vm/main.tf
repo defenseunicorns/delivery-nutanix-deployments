@@ -34,8 +34,7 @@ provider "nutanix" {
 }
 
 module "postgres-profile-vm" {
-  # source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/postgres-profile-vm?ref=v0.3.3"
-  source = "../../delivery-nutanix-iac/modules/postgres-profile-vm"
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/postgres-profile-vm?ref=v0.5.0"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
