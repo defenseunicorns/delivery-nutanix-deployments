@@ -33,14 +33,15 @@ provider "nutanix" {
   insecure = var.nutanix_insecure
 }
 
-module "postgres-14-profile-vm" {
-  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/postgres-profile-vm?ref=v0.3.3"
+module "postgres-profile-vm" {
+  # source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/postgres-profile-vm?ref=v0.3.3"
+  source = "../../delivery-nutanix-iac/modules/postgres-profile-vm"
 
   nutanix_cluster     = var.nutanix_cluster
   nutanix_subnet      = var.nutanix_subnet
-  name                = "postgres-14-profile"
+  name                = "postgres-15_8-profile"
   memory              = 4 * 1024
-  image_name          = var.image_name
+  image_name          = "uds-fips-postgresql-15.8-202411082049"
   ssh_authorized_keys = var.ssh_authorized_keys
   user_password       = var.user_password
   pg_password         = var.pg_password
