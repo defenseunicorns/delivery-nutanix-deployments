@@ -59,7 +59,7 @@ module "gitlab-pg-db-ha" {
   database_size         = "200"
   ssh_authorized_key    = var.ssh_authorized_key
   db_password           = var.gitlab_db_password
-  vm_password           = "password123"
+  vm_password           = var.gitlab_ha_vm_password
   node_count            = 3
   deploy_haproxy        = true
 }

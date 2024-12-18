@@ -99,6 +99,11 @@ variable "gitlab_vm_password" {
   type        = string
 }
 
+variable "gitlab_ha_vm_password" {
+  description = "The password to set for the postgres DB postgres user."
+  type        = string
+}
+
 variable "keycloak_vm_password" {
   description = "The password to set for the postgres DB postgres user."
   type        = string
