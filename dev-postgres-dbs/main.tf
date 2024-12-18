@@ -45,6 +45,25 @@ provider "nutanix" {
   ndb_password = var.ndb_password
 }
 
+module "gitlab-pg-db-ha" {
+  source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db-ha?ref=v0.5.0"
+
+  software_profile_name = "fips_postgres_15_ha"
+  compute_profile_name  = "large-compute"
+  network_profile_name  = local.default_network_profile_name
+  db_param_profile_name = local.default_db_param_profile_name
+  sla_name              = local.default_sla_name
+  nutanix_cluster_name  = var.nutanix_cluster_name
+  database_name         = "gitlabdb"
+  instance_name         = "${local.name_prefix}-gitlab-pg-ha"
+  database_size         = "200"
+  ssh_authorized_key    = var.ssh_authorized_key
+  db_password           = var.gitlab_db_password
+  vm_password           = var.gitlab_ha_vm_password
+  node_count            = 3
+  deploy_haproxy        = true
+}
+
 module "gitlab-pg-db" {
   source = "git::https://github.com/defenseunicorns/delivery-nutanix-iac.git//modules/ndb-pg-db?ref=v0.2.2"
 

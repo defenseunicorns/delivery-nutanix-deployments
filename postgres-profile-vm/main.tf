@@ -40,7 +40,7 @@ module "postgres-profile-vm" {
   nutanix_subnet      = var.nutanix_subnet
   name                = "postgres-15_8-profile"
   memory              = 4 * 1024
-  image_name          = "uds-fips-postgresql-15.8-202411082049"
+  image_name          = "uds-fips-postgresql-15.8-202412040308"
   ssh_authorized_keys = var.ssh_authorized_keys
   user_password       = var.user_password
   pg_password         = var.pg_password
