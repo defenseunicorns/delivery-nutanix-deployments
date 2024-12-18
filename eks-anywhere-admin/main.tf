@@ -132,6 +132,43 @@ resource "nutanix_virtual_machine" "eks_anywhere_admin_2" {
   }))
 }
 
+resource "nutanix_virtual_machine" "postgres-temp" {
+  name         = "${random_string.uid.result}-postgres-temp"
+  cluster_uuid = data.nutanix_cluster.cluster.id
+
+  memory_size_mib      = 16 * 1024
+  num_sockets          = 4
+  num_vcpus_per_socket = 1
+
+  boot_type = "UEFI"
+
+  disk_list {
+    data_source_reference = {
+      kind = "image"
+      uuid = data.nutanix_image.image.id
+    }
+    device_properties {
+      disk_address = {
+        device_index = 0
+        adapter_type = "SCSI"
+      }
+      device_type = "DISK"
+    }
+    disk_size_mib = 20 * 1024
+  }
+
+  nic_list {
+    subnet_uuid = data.nutanix_subnet.subnet.id
+  }
+
+  guest_customization_cloud_init_user_data = base64encode(templatefile("${path.module}/cloud-config.tpl.yaml", {
+    hostname         = "${random_string.uid.result}-postgres-temp",
+    node_user        = "nutanix",
+    authorized_keys  = var.ssh_authorized_keys,
+    ntp_server       = var.ntp_server,
+  }))
+}
+
 # module "anywhere-test" {
 #   source = "../../delivery-nutanix-iac/modules/eks-anywhere-vm"
 

@@ -1,7 +1,6 @@
+#cloud-config
 # Copyright 2024 Defense Unicorns
 # SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
-
-#cloud-config
 hostname: ${hostname}.local
 prefer_fqdn_over_hostname: false
 users:
